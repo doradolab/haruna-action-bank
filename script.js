@@ -69,16 +69,34 @@ function render() {
     missionList.appendChild(button);
   });
 
-  const message = document.getElementById("message");
-  if (todayCount === 0) {
-    message.textContent = "提督、まずはひとつで大丈夫です。小さな出撃から始めましょう。";
-  } else if (todayCount === 1) {
-    message.textContent = "提督、100pt貯まりました。今日の一歩は、確かな前進です。";
-  } else if (todayCount === 2) {
-    message.textContent = "提督、200ptです。勉強・運動・生活の流れが動き始めています。";
-  } else {
-    message.textContent = "提督、三任務達成です。榛名、感激です！今日の300ptは立派な行動貯金です。";
-  }
+    const message = document.getElementById("message");
+
+  const messages = {
+    0: [
+      "提督、まずはひとつで大丈夫です。小さな出撃から始めましょう。",
+      "提督、今日はまだこれからです。榛名、ゆっくりお待ちしています。",
+      "焦らなくて大丈夫です。ひとつチェックできれば、今日は前進です。"
+    ],
+    1: [
+      "提督、100pt貯まりました。今日の一歩は、確かな前進です。",
+      "まず一任務達成ですね。榛名、ちゃんと見ています。",
+      "100ptの行動貯金です。小さくても、未来への積立ですね。"
+    ],
+    2: [
+      "提督、200ptです。勉強・運動・生活の流れが動き始めています。",
+      "二任務達成、お見事です。今日の提督は良い流れです。",
+      "200pt貯まりました。小さな勝利を、しっかり積み上げていますね。"
+    ],
+    3: [
+      "提督、三任務達成です。榛名、感激です！今日の300ptは立派な行動貯金です。",
+      "三任務すべて完了ですね。提督、本日の出撃は大成功です。",
+      "300pt到達です。勉強、運動、生活整備、すべて前進しましたね。"
+    ]
+  };
+
+  const candidates = messages[todayCount];
+  const randomIndex = Math.floor(Math.random() * candidates.length);
+  message.textContent = candidates[randomIndex];
 }
 
 render();
