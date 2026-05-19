@@ -64,7 +64,7 @@ function renderHistory(records) {
 
     const dots = missions.map(mission => {
       const doneClass = dayRecord[mission.id] ? "done" : "";
-      return `<span class="history-dot ${doneClass}"></span>`;
+  return `<span class="history-dot ${mission.id} ${doneClass}"></span>`;
     }).join("");
 
     row.innerHTML = `
@@ -127,7 +127,7 @@ function render() {
 
   missions.forEach(mission => {
     const button = document.createElement("button");
-    button.className = `mission ${todayRecord[mission.id] ? "done" : ""}`;
+button.className = `mission ${mission.id} ${todayRecord[mission.id] ? "done" : ""}`;
 
     button.innerHTML = `
       <span>${mission.text}</span>
