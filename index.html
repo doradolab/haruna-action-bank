@@ -4,9 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>榛名の行動貯金</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>榛名の行動貯金</h1>
-  <p>三任務チェックアプリの準備中です。</p>
+  <main class="app">
+    <header class="header">
+      <h1>榛名の行動貯金</h1>
+      <div class="date" id="date"></div>
+    </header>
+
+    <section class="point-card">
+      <div class="label">累積行動貯金</div>
+      <div class="total-point" id="totalPoint">0 pt</div>
+      <div class="today-point">今日の貯金：<span id="todayPoint">0 pt</span></div>
+    </section>
+
+    <section class="missions" id="missionList"></section>
+
+    <section class="message" id="message">
+      提督、今日も小さく前進しましょう。
+    </section>
+
+    <div class="footer">
+      1任務 = 100pt / 1日最大300pt
+    </div>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
