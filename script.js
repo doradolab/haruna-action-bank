@@ -30,7 +30,45 @@ function calculateTotal(records) {
     return total + count * POINT_PER_MISSION;
   }, 0);
 }
+function getDateKeyByOffset(offset) {
+  const date = new Date();
+  date.setDate(date.getDate() - offset);
 
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function renderHistory(records) {
+  const historyList = document.getElementById("historyList");
+  if (!historyList) return;
+
+  historyList.innerHTML = "";
+
+  for (let i = 6; i >= 0; i--) {
+    const dateKey = getDateKeyByOffset(i);
+    const dayRecord = records[dateKey] || {};
+    const count = missions.filter(mission => dayRecord[mission.id]).length;
+    const point = count * POINT_PER_MISSION;
+
+    const row = document.createElement("div");
+    row.className = "history-row";
+
+    const dots = missions.map(mission => {
+      const done = dayRecord[mission.id] ? "done" : "";
+      return `<span class="history-dot ${done}"></span>`;
+    }).join("");
+
+    row.innerHTML = `
+      <span>${dateKey.slice(5)}　${point}pt</span>
+      <span class="history-dots">${dots}</span>
+    `;
+
+    historyList.appendChild(row);
+  }
+}
 function render() {
   const todayKey = getTodayKey();
   const records = loadRecords();
@@ -68,7 +106,9 @@ function render() {
 
     missionList.appendChild(button);
   });
-
+  
+  renderHistory(records);
+  
     const message = document.getElementById("message");
 
   const messages = {
