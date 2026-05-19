@@ -165,3 +165,47 @@ body {
 .history-dot.done {
   background: #2d79b8;
 }
+.mission.study.done {
+  outline-color: #2d79b8;
+  background: linear-gradient(135deg, #ffffff 0%, #e8f5ff 100%);
+}
+
+.mission.squat.done {
+  outline-color: #36a269;
+  background: linear-gradient(135deg, #ffffff 0%, #e9f8ef 100%);
+}
+
+.mission.clean.done {
+  outline-color: #d8912b;
+  background: linear-gradient(135deg, #ffffff 0%, #fff2df 100%);
+}
+
+.mission.study.done .check {
+  border-color: #2d79b8;
+  background: #e3f3ff;
+  color: #2d79b8;
+}
+
+.mission.squat.done .check {
+  border-color: #36a269;
+  background: #e4f7ec;
+  color: #36a269;
+}
+
+.mission.clean.done .check {
+  border-color: #d8912b;
+  background: #fff0d9;
+  color: #d8912b;
+}
+
+.history-dot.study.done {
+  background: #2d79b8;
+}
+
+.history-dot.squat.done {
+  background: #36a269;
+}
+
+.history-dot.clean.done {
+  background: #d8912b;
+}
