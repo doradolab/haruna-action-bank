@@ -15,9 +15,25 @@ function getTodayKey() {
   return `${year}-${month}-${day}`;
 }
 
+function getDateKeyByOffset(offset) {
+  const date = new Date();
+  date.setDate(date.getDate() - offset);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
 function loadRecords() {
-  const raw = localStorage.getItem(STORAGE_KEY);
-  return raw ? JSON.parse(raw) : {};
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (error) {
+    console.error("記録データの読み込みに失敗しました:", error);
+    return {};
+  }
 }
 
 function saveRecords(records) {
@@ -29,16 +45,6 @@ function calculateTotal(records) {
     const count = missions.filter(mission => dayRecord[mission.id]).length;
     return total + count * POINT_PER_MISSION;
   }, 0);
-}
-function getDateKeyByOffset(offset) {
-  const date = new Date();
-  date.setDate(date.getDate() - offset);
-
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
 }
 
 function renderHistory(records) {
@@ -57,8 +63,8 @@ function renderHistory(records) {
     row.className = "history-row";
 
     const dots = missions.map(mission => {
-      const done = dayRecord[mission.id] ? "done" : "";
-      return `<span class="history-dot ${done}"></span>`;
+      const doneClass = dayRecord[mission.id] ? "done" : "";
+      return `<span class="history-dot ${doneClass}"></span>`;
     }).join("");
 
     row.innerHTML = `
@@ -69,48 +75,8 @@ function renderHistory(records) {
     historyList.appendChild(row);
   }
 }
-function render() {
-  const todayKey = getTodayKey();
-  const records = loadRecords();
 
-  if (!records[todayKey]) {
-    records[todayKey] = {};
-  }
-
-  const todayRecord = records[todayKey];
-  const todayCount = missions.filter(mission => todayRecord[mission.id]).length;
-  const todayPoint = todayCount * POINT_PER_MISSION;
-  const totalPoint = calculateTotal(records);
-
-  document.getElementById("date").textContent = todayKey;
-  document.getElementById("todayPoint").textContent = `${todayPoint.toLocaleString()} pt`;
-  document.getElementById("totalPoint").textContent = `${totalPoint.toLocaleString()} pt`;
-
-  const missionList = document.getElementById("missionList");
-  missionList.innerHTML = "";
-
-  missions.forEach(mission => {
-    const button = document.createElement("button");
-    button.className = `mission ${todayRecord[mission.id] ? "done" : ""}`;
-    button.innerHTML = `
-      <span>${mission.text}</span>
-      <span class="check">${todayRecord[mission.id] ? "✓" : ""}</span>
-    `;
-
-    button.addEventListener("click", () => {
-      todayRecord[mission.id] = !todayRecord[mission.id];
-      records[todayKey] = todayRecord;
-      saveRecords(records);
-      render();
-    });
-
-    missionList.appendChild(button);
-  });
-  
-  renderHistory(records);
-  
-    const message = document.getElementById("message");
-
+function getRandomMessage(todayCount) {
   const messages = {
     0: [
       "提督、まずはひとつで大丈夫です。小さな出撃から始めましょう。",
@@ -134,9 +100,54 @@ function render() {
     ]
   };
 
-  const candidates = messages[todayCount];
+  const candidates = messages[todayCount] || messages[0];
   const randomIndex = Math.floor(Math.random() * candidates.length);
-  message.textContent = candidates[randomIndex];
+  return candidates[randomIndex];
+}
+
+function render() {
+  const todayKey = getTodayKey();
+  const records = loadRecords();
+
+  if (!records[todayKey]) {
+    records[todayKey] = {};
+  }
+
+  const todayRecord = records[todayKey];
+  const todayCount = missions.filter(mission => todayRecord[mission.id]).length;
+  const todayPoint = todayCount * POINT_PER_MISSION;
+  const totalPoint = calculateTotal(records);
+
+  document.getElementById("date").textContent = todayKey;
+  document.getElementById("todayPoint").textContent = `${todayPoint.toLocaleString()} pt`;
+  document.getElementById("totalPoint").textContent = `${totalPoint.toLocaleString()} pt`;
+
+  const missionList = document.getElementById("missionList");
+  missionList.innerHTML = "";
+
+  missions.forEach(mission => {
+    const button = document.createElement("button");
+    button.className = `mission ${todayRecord[mission.id] ? "done" : ""}`;
+
+    button.innerHTML = `
+      <span>${mission.text}</span>
+      <span class="check">${todayRecord[mission.id] ? "✓" : ""}</span>
+    `;
+
+    button.addEventListener("click", () => {
+      todayRecord[mission.id] = !todayRecord[mission.id];
+      records[todayKey] = todayRecord;
+      saveRecords(records);
+      render();
+    });
+
+    missionList.appendChild(button);
+  });
+
+  renderHistory(records);
+
+  const message = document.getElementById("message");
+  message.textContent = getRandomMessage(todayCount);
 }
 
 render();
