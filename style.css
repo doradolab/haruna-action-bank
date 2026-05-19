@@ -1,0 +1,123 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: linear-gradient(160deg, #eef7ff 0%, #d7ecff 45%, #f8fbff 100%);
+  color: #102033;
+  display: flex;
+  justify-content: center;
+}
+
+.app {
+  width: 100%;
+  max-width: 430px;
+  min-height: 100vh;
+  padding: 24px 18px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 26px;
+  letter-spacing: 0.04em;
+}
+
+.date {
+  margin-top: 6px;
+  color: #52667a;
+  font-size: 14px;
+}
+
+.point-card {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 28px;
+  padding: 26px 20px;
+  text-align: center;
+  box-shadow: 0 18px 40px rgba(42, 88, 130, 0.16);
+  margin-bottom: 20px;
+}
+
+.label {
+  color: #52667a;
+  font-size: 14px;
+}
+
+.total-point {
+  font-size: 44px;
+  font-weight: 800;
+  margin-top: 8px;
+  color: #17395c;
+}
+
+.today-point {
+  margin-top: 12px;
+  font-size: 18px;
+  color: #b08324;
+  font-weight: 700;
+}
+
+.missions {
+  display: grid;
+  gap: 12px;
+}
+
+.mission {
+  width: 100%;
+  border: none;
+  border-radius: 20px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 10px 24px rgba(42, 88, 130, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 17px;
+  color: #102033;
+}
+
+.mission.done {
+  background: linear-gradient(135deg, #ffffff 0%, #e8f5ff 100%);
+  outline: 2px solid #78b7e8;
+}
+
+.check {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #9db4c8;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  color: #2d79b8;
+}
+
+.mission.done .check {
+  border-color: #2d79b8;
+  background: #e3f3ff;
+}
+
+.message {
+  margin-top: 22px;
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(23, 57, 92, 0.9);
+  color: white;
+  line-height: 1.7;
+  box-shadow: 0 12px 28px rgba(23, 57, 92, 0.18);
+}
+
+.footer {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 12px;
+  color: #728396;
+}
