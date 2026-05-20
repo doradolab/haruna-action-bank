@@ -1,7 +1,7 @@
 const missions = [
-  { id: "study", text: "勉強のテキストを開く" },
-  { id: "squat", text: "スクワット10回" },
-  { id: "clean", text: "部屋掃除3分" }
+  { id: "study", icon: "📘", text: "勉強のテキストを開く" },
+  { id: "squat", icon: "💪", text: "スクワット10回" },
+  { id: "clean", icon: "🧹", text: "部屋掃除3分" }
 ];
 
 const POINT_PER_MISSION = 100;
@@ -129,10 +129,13 @@ function render() {
     const button = document.createElement("button");
 button.className = `mission ${mission.id} ${todayRecord[mission.id] ? "done" : ""}`;
 
-    button.innerHTML = `
-      <span>${mission.text}</span>
-      <span class="check">${todayRecord[mission.id] ? "✓" : ""}</span>
-    `;
+button.innerHTML = `
+  <span class="mission-label">
+    <span class="mission-icon">${mission.icon}</span>
+    <span>${mission.text}</span>
+  </span>
+  <span class="check">${todayRecord[mission.id] ? "✓" : ""}</span>
+`;
 
     button.addEventListener("click", () => {
       todayRecord[mission.id] = !todayRecord[mission.id];
