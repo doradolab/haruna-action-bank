@@ -105,9 +105,9 @@ body {
   background: #e3f3ff;
 }
 
-.message {
+.message-box {
   margin-top: 22px;
-  padding: 18px;
+  padding: 16px 18px 18px;
   border-radius: 20px;
   background: rgba(23, 57, 92, 0.9);
   color: white;
@@ -115,6 +115,20 @@ body {
   box-shadow: 0 12px 28px rgba(23, 57, 92, 0.18);
 }
 
+.message-label {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: #dceeff;
+}
+
+.message {
+  font-size: 15px;
+}
 .footer {
   margin-top: 18px;
   text-align: center;
