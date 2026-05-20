@@ -25,7 +25,11 @@ function getDateKeyByOffset(offset) {
 
   return `${year}-${month}-${day}`;
 }
-
+function getWeekdayLabel(dateKey) {
+  const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+  const date = new Date(dateKey);
+  return weekdays[date.getDay()];
+}
 function loadRecords() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -68,7 +72,7 @@ function renderHistory(records) {
     }).join("");
 
     row.innerHTML = `
-      <span>${dateKey.slice(5)}　${point}pt</span>
+      <span>${dateKey.slice(5)} ${getWeekdayLabel(dateKey)}　${point}pt</span>
       <span class="history-dots">${dots}</span>
     `;
 
