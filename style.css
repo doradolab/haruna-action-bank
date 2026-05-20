@@ -109,7 +109,7 @@ body {
   margin-top: 22px;
   padding: 16px 18px 18px;
   border-radius: 20px;
-  background: rgba(23, 57, 92, 0.9);
+  background: rgba(23, 57, 92, 0.92);
   color: white;
   line-height: 1.7;
   box-shadow: 0 12px 28px rgba(23, 57, 92, 0.18);
@@ -117,11 +117,12 @@ body {
 
 .message-label {
   display: inline-block;
-  margin-bottom: 8px;
-  padding: 2px 10px;
+  margin-bottom: 10px;
+  padding: 3px 10px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.16);
   font-size: 12px;
+  font-weight: 700;
   letter-spacing: 0.08em;
   color: #dceeff;
 }
@@ -129,6 +130,7 @@ body {
 .message {
   font-size: 15px;
 }
+
 .footer {
   margin-top: 18px;
   text-align: center;
