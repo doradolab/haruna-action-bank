@@ -1,5 +1,5 @@
 const missions = [
-  { id: "study", icon: "📘", text: "勉強のテキストを開く" },
+ { id: "study", icon: "✏️", text: "勉強のテキストを開く" },
   { id: "squat", icon: "💪", text: "スクワット10回" },
   { id: "clean", icon: "🧹", text: "部屋掃除3分" }
 ];
