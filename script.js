@@ -36,11 +36,13 @@ function getDateKeyByOffset(offset) {
 
   return `${year}-${month}-${day}`;
 }
+
 function getWeekdayLabel(dateKey) {
   const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
   const date = new Date(dateKey);
   return weekdays[date.getDay()];
 }
+
 function loadRecords() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -73,7 +75,8 @@ function getSavingRankStatus(totalPoint) {
           currentRank,
           nextRank: null,
           remaining: 0,
-          progress: 100
+          progress: 100,
+          level: i + 1
         };
       }
 
@@ -86,10 +89,19 @@ function getSavingRankStatus(totalPoint) {
         currentRank,
         nextRank,
         remaining,
-        progress
+        progress,
+        level: i + 1
       };
     }
   }
+
+  return {
+    currentRank: savingRanks[0],
+    nextRank: savingRanks[1],
+    remaining: savingRanks[1].pt,
+    progress: 0,
+    level: 1
+  };
 }
 
 function renderHistory(records) {
@@ -109,7 +121,7 @@ function renderHistory(records) {
 
     const dots = missions.map(mission => {
       const doneClass = dayRecord[mission.id] ? "done" : "";
-  return `<span class="history-dot ${mission.id} ${doneClass}"></span>`;
+      return `<span class="history-dot ${mission.id} ${doneClass}"></span>`;
     }).join("");
 
     row.innerHTML = `
@@ -169,34 +181,33 @@ function render() {
 
   const rankStatus = getSavingRankStatus(totalPoint);
 
-const rankLevel = savingRanks.findIndex(rank => rank.name === rankStatus.currentRank.name) + 1;
-document.getElementById("rankName").textContent =
-  `Lv.${rankLevel}「${rankStatus.currentRank.name}」`;
+  document.getElementById("rankName").textContent =
+    `Lv.${rankStatus.level}「${rankStatus.currentRank.name}」`;
 
-if (rankStatus.nextRank) {
-  document.getElementById("rankNext").textContent =
-    `次のランク「${rankStatus.nextRank.name}」まで あと${rankStatus.remaining.toLocaleString()}pt`;
-} else {
-  document.getElementById("rankNext").textContent =
-    "最高ランク到達です。榛名、感激です！";
-}
+  if (rankStatus.nextRank) {
+    document.getElementById("rankNext").textContent =
+      `次のLv.まで あと${rankStatus.remaining.toLocaleString()}pt`;
+  } else {
+    document.getElementById("rankNext").textContent =
+      "最高Lv.到達です。榛名、感激です！";
+  }
 
-document.getElementById("rankBarFill").style.width = `${rankStatus.progress}%`;
-  
+  document.getElementById("rankBarFill").style.width = `${rankStatus.progress}%`;
+
   const missionList = document.getElementById("missionList");
   missionList.innerHTML = "";
 
   missions.forEach(mission => {
     const button = document.createElement("button");
-button.className = `mission ${mission.id} ${todayRecord[mission.id] ? "done" : ""}`;
+    button.className = `mission ${mission.id} ${todayRecord[mission.id] ? "done" : ""}`;
 
-button.innerHTML = `
-  <span class="mission-label">
-    <span class="mission-icon">${mission.icon}</span>
-    <span>${mission.text}</span>
-  </span>
-  <span class="check">${todayRecord[mission.id] ? "✓" : ""}</span>
-`;
+    button.innerHTML = `
+      <span class="mission-label">
+        <span class="mission-icon">${mission.icon}</span>
+        <span>${mission.text}</span>
+      </span>
+      <span class="check">${todayRecord[mission.id] ? "✓" : ""}</span>
+    `;
 
     button.addEventListener("click", () => {
       todayRecord[mission.id] = !todayRecord[mission.id];
