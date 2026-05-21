@@ -169,7 +169,9 @@ function render() {
 
   const rankStatus = getSavingRankStatus(totalPoint);
 
-document.getElementById("rankName").textContent = rankStatus.currentRank.name;
+const rankLevel = savingRanks.findIndex(rank => rank.name === rankStatus.currentRank.name) + 1;
+document.getElementById("rankName").textContent =
+  `Lv.${rankLevel}「${rankStatus.currentRank.name}」`;
 
 if (rankStatus.nextRank) {
   document.getElementById("rankNext").textContent =
