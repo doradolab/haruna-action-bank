@@ -7,6 +7,17 @@ const missions = [
 const POINT_PER_MISSION = 100;
 const STORAGE_KEY = "haruna-action-bank-records";
 
+const savingRanks = [
+  { name: "はじめの積立", pt: 0 },
+  { name: "小さな積立", pt: 500 },
+  { name: "着実な積立", pt: 1000 },
+  { name: "積立習慣家", pt: 2000 },
+  { name: "堅実な積立家", pt: 4000 },
+  { name: "行動資産家", pt: 7000 },
+  { name: "継続の達人", pt: 10000 },
+  { name: "榛名の誇り", pt: 15000 }
+];
+
 function getTodayKey() {
   const now = new Date();
   const year = now.getFullYear();
@@ -41,7 +52,7 @@ function loadRecords() {
 }
 
 function saveRecords(records) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  loStorage.setItem(STORAGE_KEY, JSON.stringify(records));
 }
 
 function calculateTotal(records) {
@@ -49,6 +60,36 @@ function calculateTotal(records) {
     const count = missions.filter(mission => dayRecord[mission.id]).length;
     return total + count * POINT_PER_MISSION;
   }, 0);
+}
+
+function getSavingRankStatus(totalPoint) {
+  for (let i = savingRanks.length - 1; i >= 0; i--) {
+    if (totalPoint >= savingRanks[i].pt) {
+      const currentRank = savingRanks[i];
+      const nextRank = savingRanks[i + 1];
+
+      if (!nextRank) {
+        return {
+          currentRank,
+          nextRank: null,
+          remaining: 0,
+          progress: 100
+        };
+      }
+
+      const range = nextRank.pt - currentRank.pt;
+      const gained = totalPoint - currentRank.pt;
+      const progress = Math.min(100, Math.round((gained / range) * 100));
+      const remaining = nextRank.pt - totalPoint;
+
+      return {
+        currentRank,
+        nextRank,
+        remaining,
+        progress
+      };
+    }
+  }
 }
 
 function renderHistory(records) {
@@ -126,6 +167,20 @@ function render() {
   document.getElementById("todayPoint").textContent = `${todayPoint.toLocaleString()} pt`;
   document.getElementById("totalPoint").textContent = `${totalPoint.toLocaleString()} pt`;
 
+  const rankStatus = getSavingRankStatus(totalPoint);
+
+document.getElementById("rankName").textContent = rankStatus.currentRank.name;
+
+if (rankStatus.nextRank) {
+  document.getElementById("rankNext").textContent =
+    `次のランク「${rankStatus.nextRank.name}」まで あと${rankStatus.remaining.toLocaleString()}pt`;
+} else {
+  document.getElementById("rankNext").textContent =
+    "最高ランク到達です。榛名、感激です！";
+}
+
+document.getElementById("rankBarFill").style.width = `${rankStatus.progress}%`;
+  
   const missionList = document.getElementById("missionList");
   missionList.innerHTML = "";
 
