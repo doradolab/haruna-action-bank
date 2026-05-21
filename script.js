@@ -52,7 +52,7 @@ function loadRecords() {
 }
 
 function saveRecords(records) {
-  loStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
 }
 
 function calculateTotal(records) {
