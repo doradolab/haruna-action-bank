@@ -52,10 +52,12 @@ body {
 }
 
 .total-point {
+  font-family: "Montserrat", system-ui, sans-serif;
   font-size: 44px;
   font-weight: 800;
   margin-top: 8px;
   color: #17395c;
+  letter-spacing: 0.02em;
 }
 
 .today-point {
