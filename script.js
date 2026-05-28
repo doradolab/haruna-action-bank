@@ -26,6 +26,16 @@ function getTodayKey() {
   return `${year}-${month}-${day}`;
 }
 
+function getDisplayDate() {
+  const now = new Date();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+  const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+  const weekday = weekdays[now.getDay()];
+
+  return `${month}月${day}日（${weekday}）`;
+}
+
 function getDateKeyByOffset(offset) {
   const date = new Date();
   date.setDate(date.getDate() - offset);
@@ -175,7 +185,7 @@ function render() {
   const todayPoint = todayCount * POINT_PER_MISSION;
   const totalPoint = calculateTotal(records);
 
-  document.getElementById("date").textContent = todayKey;
+  document.getElementById("date").textContent = getDisplayDate();
   document.getElementById("todayPoint").textContent = `${todayPoint.toLocaleString()} pt`;
   document.getElementById("totalPoint").textContent = `${totalPoint.toLocaleString()} pt`;
 
